@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+#define MAX 10
+#define INF 9999
+
+void floyd(int n, int A[MAX][MAX]) {
+    int D[MAX][MAX];
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            D[i][j] = A[i][j];
+
+    for (int k = 0; k < n; k++)
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (D[i][k] != INF && D[k][j] != INF && D[i][j] > D[i][k] + D[k][j])
+                    D[i][j] = D[i][k] + D[k][j];
+
+    printf("Shortest path matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (D[i][j] == INF)
+                printf("INF ");
+            else
+                printf("%d ", D[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int n, A[MAX][MAX];
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter adjacency matrix (9999 for INF):\n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &A[i][j]);
+
+    floyd(n, A);
+
+    return 0;
+}
